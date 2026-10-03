@@ -5,7 +5,7 @@ Firmware for the NodeMCU/ESP8266 in the rover. It creates its **own Wi-Fi access
 ## Network
 | Item | Value |
 |---|---|
-| SSID / password | `MIRANA_RC_CAR` / `apexhud1` (change in `apex-rover.ino`) |
+| SSID / password | `APEX_ROVER` / `apexhud1` (change in `apex-rover.ino`) |
 | Rover IP | `192.168.4.1` |
 | Commands (app → rover) | UDP `4210`, one ASCII char |
 | Telemetry (rover → app) | UDP `4210`, `{"B":"85","S":"4","D":"152"}` |

@@ -2,7 +2,7 @@
 
 A landscape-oriented Kivy/KivyMD control dashboard for the MIRANA ESP8266 ApexHUD. The app provides drive and steering controls, a telemetry HUD, a Wi-Fi connection panel, optional microphone streaming, and local sound effects. It can be run as a desktop development app or packaged as an Android APK with Buildozer.
 
-> **Hardware note:** The matching ESP8266 firmware lives in [`../apex-rover`](../apex-rover). The rover creates its own Wi-Fi access point (`MIRANA_RC_CAR`, `192.168.4.1`).
+> **Hardware note:** The matching ESP8266 firmware lives in [`../apex-rover`](../apex-rover). The rover creates its own Wi-Fi access point (`APEX_ROVER`, `192.168.4.1`).
 
 ## Contents
 

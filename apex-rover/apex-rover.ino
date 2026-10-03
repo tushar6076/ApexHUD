@@ -7,7 +7,7 @@
 #include <WiFiUdp.h>
 
 // ---------- Network (must match app/config.py) ----------
-const char *AP_SSID = "MIRANA_RC_CAR";
+const char *AP_SSID = "APEX_ROVER";
 const char *AP_PASS = "apexhud1";       // min 8 chars
 const uint16_t CMD_PORT = 4210;         // app -> rover
 const uint16_t TELEMETRY_PORT = 4210;   // rover -> app (app binds this)
