@@ -1,0 +1,80 @@
+<ConnectionContent>:
+    orientation: "vertical"
+    padding: ["16dp", "12dp", "16dp", "12dp"]
+    spacing: "10dp"
+    size_hint_y: None
+    height: "210dp"
+
+    # --- TOP CARD: STATUS HEADER ---
+    MDCard:
+        size_hint_y: None
+        height: "56dp"
+        padding: ["12dp", "6dp", "12dp", "6dp"]
+        radius: [12, ]
+        style: "outlined"
+        line_color: (0, 1, 1, 0.4) if app.is_connected else (1, 0.2, 0.2, 0.4)
+        md_bg_color: (0, 0.2, 0.2, 0.25) if app.is_connected else (0.2, 0, 0, 0.25)
+
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: "8dp"
+
+            # Status Indicator Dot
+            Widget:
+                size_hint: None, None
+                size: "10dp", "10dp"
+                pos_hint: {"center_y": 0.5}
+                canvas:
+                    Color:
+                        rgba: (0, 1, 1, 1) if app.is_connected else (1, 0.2, 0.2, 1)
+                    Ellipse:
+                        pos: self.pos
+                        size: self.size
+
+            BoxLayout:
+                orientation: "vertical"
+                pos_hint: {"center_y": 0.5}
+
+                MDLabel:
+                    text: "SYSTEM " + ("ONLINE" if app.is_connected else "OFFLINE")
+                    font_name: "Orbitron"
+                    font_style: "Title"
+                    role: "small"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: (0, 1, 1, 1) if app.is_connected else (1, 0.3, 0.3, 1)
+
+                MDLabel:
+                    text: ("Target: " + app.robot_name) if app.is_connected else "Connect to AP: MIRANA_RC_CAR (pw: apexhud1)"
+                    font_style: "Body"
+                    role: "small"
+                    theme_text_color: "Secondary"
+
+    # --- ACTION BUTTON ---
+    MDButton:
+        style: "filled"
+        radius: [12, ]
+        size_hint_x: 1
+        size_hint_y: None
+        height: "44dp"
+        pos_hint: {"center_x": .5}
+        md_bg_color: (0.9, 0.1, 0.1, 0.85) if app.is_connected else (0, 0.7, 0.85, 0.85)
+        on_release: 
+            root.disconnect_system() if app.is_connected else root.retry_connection()
+        
+        MDButtonText:
+            text: "DISCONNECT SYSTEM" if app.is_connected else "OPEN WI-FI SETTINGS"
+            font_name: "Orbitron"
+            font_style: "Label"
+            role: "medium"
+            text_color: 1, 1, 1, 1
+
+    # --- FOOTER METADATA ---
+    MDLabel:
+        text: "UDP Protocol • " + app.app_config.ESP_IP + ":" + str(app.app_config.UDP_PORT)
+        halign: "center"
+        role: "small"
+        font_style: "Label"
+        theme_text_color: "Hint"
+        size_hint_y: None
+        height: "16dp"

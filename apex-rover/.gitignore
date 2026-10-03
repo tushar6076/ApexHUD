@@ -1,0 +1,19 @@
+# Build output
+build/
+.pio/
+*.bin
+*.elf
+*.hex
+*.map
+*.o
+*.a
+*.d
+compile_commands.json
+
+# Local credentials / overrides
+secrets.h
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
