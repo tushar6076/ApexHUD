@@ -1,19 +1,43 @@
-# OS / IDE
+# OS Artifacts
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor Configs
 .idea/
 .vscode/
+*.iml
+*.ipr
+*.iws
 
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-.env
-
-# Build output
-_COMPILED/
-bin/
-.buildozer/
+# General Build Outputs & Archives
 build/
-.pio/
+bin/
+_COMPILED/
 *.log
+*.tmp
+*.bak
+
+# Packages & Distributables
+*.apk
+*.aab
+*.ipa
+*.xcarchive
+
+# ESP8266 / Microcontroller Firmware Builds
+.pio/
+.pioenvs/
+.piolibdeps/
+.clangd/
+
+# Secrets & Local Configurations
+.env
+*.local
+local.properties
+key.properties
+*.keystore
+*.jks

@@ -1,29 +1,77 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-.venv/
-.env
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
 
-# Buildozer / Android
-.buildozer/
-bin/
-*.apk
-*.aab
-*.keystore
-!*.spec
-
-# Tools
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# IDE / OS
+# IntelliJ / IDE related
+*.iml
+*.ipr
+*.iws
 .idea/
 .vscode/
-.DS_Store
-*.log
+
+# Flutter / Dart / Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Widget Preview
+.widget_preview/
+
+# ==========================================
+# Android Packaging & Build Outputs
+# ==========================================
+**/android/**/build/
+**/android/.gradle/
+**/android/captures/
+**/android/local.properties
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# Android Package Outputs (APKs & Bundles)
+*.apk
+*.ap_
+*.aab
+
+# Android Signing Keys & Keystores
+*.jks
+*.keystore
+key.properties
+
+# ==========================================
+# iOS Packaging & Native Dependencies
+# ==========================================
+**/ios/Pods/
+**/ios/Podfile.lock
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.framework
+
+# iOS Xcode Derived Data & Package Outputs (IPAs, Archives)
+**/ios/**/*.xcworkspace/xcuserdata/
+**/ios/**/xcuserdata/
+*.ipa
+*.xcarchive
+*.dSYM.zip
+*.dSYM

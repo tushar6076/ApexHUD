@@ -1,0 +1,75 @@
+name: apexhud
+description: "A cyberpunk HUD dashboard for ESP8266 rover control."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  audioplayers: ^6.0.0
+  record: ^5.2.1
+  lottie: ^3.1.2
+  flutter_svg: ^2.0.10
+  app_settings: ^5.1.1
+  flutter_native_splash: ^2.4.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+dependency_overrides:
+  record_platform_interface: 1.2.0
+  record_linux: 0.7.2
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"
+  adaptive_icon_background: "assets/icons/icon_bg.png"
+  adaptive_icon_foreground: "assets/icons/icon_fg.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/icons/icon_fg.png"
+  fullscreen: true
+
+  # Android 12+ settings (single centered icon)
+  android_12:
+    color: "#FFFFFF"
+    image: "assets/icons/icon_fg.png"
+    icon_background_color: "#FFFFFF"
+
+  android: true
+  ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/lottie/loading.json
+    - assets/sfx/engine_idle.wav
+    - assets/sfx/engine_start.wav
+    - assets/sfx/servo_fizz.wav
+    - assets/sfx/ui_blip.wav
+    - assets/sfx/relay_switch.wav
+    - assets/sfx/indicator_tick.wav
+    - assets/icons/icon.png
+    - assets/icons/icon_fg.png
+    - assets/icons/icon_bg.png
+    - assets/images/image.jpg
+
+  fonts:
+    - family: Orbitron
+      fonts:
+        - asset: assets/fonts/Orbitron-Regular.ttf
+    - family: Bitcount-Ink
+      fonts:
+        - asset: assets/fonts/Bitcount-Ink.ttf
