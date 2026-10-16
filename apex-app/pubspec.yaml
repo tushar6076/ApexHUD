@@ -55,16 +55,18 @@ flutter:
 
   assets:
     - assets/lottie/loading.json
-    - assets/sfx/engine_idle.wav
-    - assets/sfx/engine_start.wav
-    - assets/sfx/servo_fizz.wav
-    - assets/sfx/ui_blip.wav
-    - assets/sfx/relay_switch.wav
-    - assets/sfx/indicator_tick.wav
+    - assets/images/image.jpg
     - assets/icons/icon.png
     - assets/icons/icon_fg.png
     - assets/icons/icon_bg.png
-    - assets/images/image.jpg
+    - assets/sfx/horn.wav
+    - assets/sfx/ui_blip.wav
+    - assets/sfx/relay_switch.wav
+    - assets/sfx/indicator_tick.wav
+    - assets/sfx/engine_drive.wav
+    - assets/sfx/turn_strain.wav
+    - assets/sfx/engine_start.wav
+    - assets/sfx/engine_idle.wav
 
   fonts:
     - family: Orbitron

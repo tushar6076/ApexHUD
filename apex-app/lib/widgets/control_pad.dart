@@ -1,6 +1,7 @@
 // lib/widgets/control_pad.dart
 import 'package:flutter/material.dart';
 import '../../styles/color.dart';
+import '../../styles/animate.dart';
 import '../../services/audio/sfx_player.dart';
 import '../../services/udp/command_service.dart';
 
@@ -33,8 +34,8 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
   late final AnimationController _blinkAnimController;
   late final Animation<double> _blinkGlow;
 
-  int _lastDriveDirection = 0;
-  int _lastSteerDirection = 0;
+  int _lastDriveDirection = 0; // -1: Rev, 0: Halt, 1: Fwd
+  int _lastSteerDirection = 0; // -1: Left, 0: Center, 1: Right
 
   @override
   void initState() {
@@ -42,31 +43,17 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
 
     _hornAnimController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: AppAnimations.hornPulseDuration,
     );
-
-    _hornRippleScale = Tween<double>(begin: 1.0, end: 2.1).animate(
-      CurvedAnimation(parent: _hornAnimController, curve: Curves.easeOutQuad),
-    );
-
-    _hornRippleOpacity = Tween<double>(begin: 0.8, end: 0.0).animate(
-      CurvedAnimation(parent: _hornAnimController, curve: Curves.easeOutQuad),
-    );
-
-    _hornBtnScale = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.88), weight: 30),
-      TweenSequenceItem(tween: Tween(begin: 0.88, end: 1.0), weight: 70),
-    ]).animate(_hornAnimController);
+    _hornRippleScale = AppAnimations.hornRippleScale(_hornAnimController);
+    _hornRippleOpacity = AppAnimations.hornRippleOpacity(_hornAnimController);
+    _hornBtnScale = AppAnimations.hornButtonScale(_hornAnimController);
 
     _blinkAnimController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 450),
+      duration: AppAnimations.blinkCycleDuration,
     );
-
-    _blinkGlow = CurvedAnimation(
-      parent: _blinkAnimController,
-      curve: Curves.easeInOut,
-    );
+    _blinkGlow = AppAnimations.blinkGlow(_blinkAnimController);
   }
 
   @override
@@ -136,9 +123,11 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
       }
     });
 
-    _sfxPlayer.playBlip();
+    _sfxPlayer.playHorn();
     _cmd.horn();
   }
+
+  // ---------- Clean Dumb Joysticks ----------
 
   void _processDrive(Offset delta) {
     final double clampedY = delta.dy.clamp(-_maxRadius, _maxRadius);
@@ -146,14 +135,8 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
       _driveKnob = Offset(0, clampedY);
     });
 
-    final double throttleIntensity = (clampedY.abs() / _maxRadius).clamp(0.0, 1.0);
-    final double currentSteer = (_steerKnob.dx / _maxRadius).clamp(-1.0, 1.0);
-
-    // Feed combined state to the kinematic audio mixer
-    _sfxPlayer.updateControls(
-      throttle: throttleIntensity,
-      steer: currentSteer,
-    );
+    // Pass raw normalized Y to SfxPlayer (-1.0 to 1.0)
+    _sfxPlayer.setDriveInput(clampedY / _maxRadius);
 
     int dir = 0;
     if (clampedY < -_deadZone) {
@@ -178,14 +161,7 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
     setState(() {
       _driveKnob = Offset.zero;
     });
-
-    final double currentSteer = (_steerKnob.dx / _maxRadius).clamp(-1.0, 1.0);
-    // Cut throttle target; audio mixer handles coasting momentum decay
-    _sfxPlayer.updateControls(
-      throttle: 0.0,
-      steer: currentSteer,
-    );
-
+    _sfxPlayer.setDriveInput(0.0);
     _lastDriveDirection = 0;
     _cmd.halt();
   }
@@ -196,14 +172,8 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
       _steerKnob = Offset(clampedX, 0);
     });
 
-    final double steerIntensity = (clampedX / _maxRadius).clamp(-1.0, 1.0);
-    final double currentThrottle = (_driveKnob.dy.abs() / _maxRadius).clamp(0.0, 1.0);
-
-    // Feed combined state to the kinematic audio mixer
-    _sfxPlayer.updateControls(
-      throttle: currentThrottle,
-      steer: steerIntensity,
-    );
+    // Pass raw normalized X to SfxPlayer (-1.0 to 1.0)
+    _sfxPlayer.setSteerInput(clampedX / _maxRadius);
 
     int dir = 0;
     if (clampedX < -_deadZone) {
@@ -228,13 +198,7 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
     setState(() {
       _steerKnob = Offset.zero;
     });
-
-    final double currentThrottle = (_driveKnob.dy.abs() / _maxRadius).clamp(0.0, 1.0);
-    _sfxPlayer.updateControls(
-      throttle: currentThrottle,
-      steer: 0.0,
-    );
-
+    _sfxPlayer.setSteerInput(0.0);
     _lastSteerDirection = 0;
     _cmd.halt();
   }
@@ -488,8 +452,7 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
         height: 48,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color:
-              active ? activeColor : AppColors.darkBackground.withValues(alpha: 0.7),
+          color: active ? activeColor : AppColors.darkBackground.withValues(alpha: 0.7),
           border: Border.all(
             color: active
                 ? activeColor
@@ -534,7 +497,7 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
           ),
         ),
 
-        // Left Flank: Horn (with ripple) & Blinking Left Turn Indicator
+        // Left Flank: Horn & Left Turn Indicator
         Positioned(
           left: 212,
           bottom: 32,
@@ -552,7 +515,7 @@ class _ControlPadState extends State<ControlPad> with TickerProviderStateMixin {
           ),
         ),
 
-        // Right Flank: Headlight & Blinking Right Turn Indicator
+        // Right Flank: Headlight & Right Turn Indicator
         Positioned(
           right: 220,
           bottom: 40,

@@ -29,12 +29,14 @@ class AppConstants {
   static const String cmdPing = "P";
 
   // SFX Asset Paths (relative to 'assets/')
-  static const String sfxEngineIdle = 'sfx/engine_idle.wav';
-  static const String sfxEngineStart = 'sfx/engine_start.wav';
-  static const String sfxServoFizz = 'sfx/servo_fizz.wav';
+  static const String sfxHorn = 'sfx/horn.wav';
   static const String sfxUiBlip = 'sfx/ui_blip.wav';
   static const String sfxRelaySwitch = 'sfx/relay_switch.wav';
   static const String sfxIndicatorTick = 'sfx/indicator_tick.wav';
+  static const String sfxEngineDrive = 'sfx/engine_drive.wav';
+  static const String sfxTurnStrain = 'sfx/turn_strain.wav';
+  static const String sfxEngineStart = 'sfx/engine_start.wav';
+  static const String sfxEngineIdle = 'sfx/engine_idle.wav';
 
   // Visual Assets
   static const String lottieLoading = 'assets/lottie/loading.json';
