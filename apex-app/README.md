@@ -1,17 +1,20 @@
-# apexhud
+# ApexHUD
 
-A new Flutter project.
+A cyberpunk HUD dashboard for controlling the ApexHUD rover.
 
-## Getting Started
+## Android release signing
 
-This project is a starting point for a Flutter application.
+Release APKs are signed using the keystore described by
+`android/key.properties`. Keep that file and the keystore out of version
+control, and back them up securely: future APKs must use the same key to update
+existing installations.
 
-A few resources to get you started if this is your first Flutter project:
+The properties file must define `storeFile`, `storePassword`, `keyAlias`, and
+`keyPassword`. Build the signed APK from this directory with:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```sh
+flutter build apk --release
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The APK is written to
+`build/app/outputs/flutter-apk/app-release.apk`.
